@@ -1,0 +1,29 @@
+# Node
+node_modules/
+**/node_modules/
+
+# Env
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Build
+dist/
+build/
+
+# Misc
+coverage/
+
+# Secrets injected by tools
+.envx
