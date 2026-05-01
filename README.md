@@ -1,26 +1,55 @@
-# Fullstack TODO Application
+# Tasky — Fullstack TODO Application
 
-A clean, minimalistic full-stack TODO application using a React frontend and Node.js backend.
+A clean, minimalistic full-stack todo app with a React frontend and a Node.js/Express backend, managed as an npm workspaces monorepo.
 
 ## Project Structure
 
-This is a monorepo setup containing both the client and server code:
+```
+tasky/
+├── client/   # React 18 + Vite frontend
+├── server/   # Node.js + Express + MongoDB backend
+└── package.json  # Workspace root — run everything from here
+```
 
-- `client/`: React frontend (Vite)
-- `server/`: Node.js/Express backend
+## Prerequisites
+
+- **Node.js** v18 or higher
+- A MongoDB instance (Atlas or local) — see [server/README.md](server/README.md) for setup
+
+## Setup
+
+Install all dependencies for both workspaces from the repo root:
+
+```bash
+npm install
+```
+
+Create a `.env` file in `server/`:
+
+```bash
+cp server/.env.example server/.env   # then fill in your MONGO_URI
+```
+
+Or create `server/.env` manually:
+
+```env
+PORT=8000
+MONGO_URI=your_mongodb_connection_string
+```
 
 ## Running the Application
 
-1. Install root dependencies:
-   ```bash
-   npm install
-   ```
+| Command | What it does |
+|---|---|
+| `npm run dev` | Starts both frontend and backend concurrently |
+| `npm run client` | Starts only the React dev server (`localhost:5173`) |
+| `npm run server` | Starts only the Express server (`localhost:8000`) |
+| `npm run build` | Builds the frontend for production |
+| `npm start` | Starts the backend in production mode |
 
-2. Start both the client and server concurrently:
-   ```bash
-   npm run dev
-   ```
+The frontend dev server proxies `/api` requests to `http://localhost:8000`, so both must be running for the app to work.
 
-Alternatively, you can run them separately:
-- `npm run client`: Starts only the React development server.
-- `npm run server`: Starts only the Node.js backend.
+## Further Reading
+
+- [client/README.md](client/README.md) — frontend setup, features, and limitations
+- [server/README.md](server/README.md) — API reference, MongoDB connection, and limitations
