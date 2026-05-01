@@ -13,11 +13,16 @@ exports.getTodos = async (req, res) => {
 // CREATE todo
 exports.createTodo = async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, dueDate } = req.body;
+
+    if (!title || !title.trim()) {
+      return res.status(400).json({ message: "Title is required." });
+    }
 
     const todo = new Todo({
-      title,
-      description,
+      title: title.trim(),
+      description: description ? description.trim() : "",
+      dueDate: dueDate || null,
     });
 
     const saved = await todo.save();
@@ -30,13 +35,21 @@ exports.createTodo = async (req, res) => {
 // UPDATE todo
 exports.updateTodo = async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, dueDate } = req.body;
+
+    if (!title || !title.trim()) {
+      return res.status(400).json({ message: "Title is required." });
+    }
 
     const updated = await Todo.findByIdAndUpdate(
       req.params.id,
-      { title, description },
+      { title: title.trim(), description: description ? description.trim() : "", dueDate: dueDate || null },
       { new: true }
     );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Todo not found." });
+    }
 
     res.json(updated);
   } catch (error) {
@@ -48,6 +61,10 @@ exports.updateTodo = async (req, res) => {
 exports.toggleDone = async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.id);
+
+    if (!todo) {
+      return res.status(404).json({ message: "Todo not found." });
+    }
 
     todo.done = !todo.done;
     await todo.save();
@@ -61,7 +78,12 @@ exports.toggleDone = async (req, res) => {
 // DELETE todo
 exports.deleteTodo = async (req, res) => {
   try {
-    await Todo.findByIdAndDelete(req.params.id);
+    const deleted = await Todo.findByIdAndDelete(req.params.id);
+
+    if (!deleted) {
+      return res.status(404).json({ message: "Todo not found." });
+    }
+
     res.json({ message: "Todo deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
