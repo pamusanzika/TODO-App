@@ -49,6 +49,12 @@ MONGO_URI=your_mongodb_connection_string
 
 The frontend dev server proxies `/api` requests to `http://localhost:8000`, so both must be running for the app to work.
 
+## Demo Video
+https://www.loom.com/share/1576e55a99954832ab42677f98746ee0
+
+## Code Walkthrough
+https://www.loom.com/share/b01ef11796b442c6a141e407db55169a
+
 ## Further Reading
 
 - [client/README.md](client/README.md) — frontend setup, features, and limitations
